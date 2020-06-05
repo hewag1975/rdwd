@@ -4,8 +4,14 @@
 \alias{readDWD.stand}
 \title{read subdaily/standard_format dwd data}
 \usage{
-readDWD.stand(file, fast = TRUE, fileEncoding = "latin1",
-  formIndex = formatIndex, ...)
+readDWD.stand(
+  file,
+  fast = TRUE,
+  fileEncoding = "latin1",
+  formIndex = formatIndex,
+  quiet = rdwdquiet(),
+  ...
+)
 }
 \arguments{
 \item{file}{Name of file on harddrive, like e.g. 
@@ -27,6 +33,9 @@ To use a current / custom index, see the source code of
 \code{\link{updateIndexes}} at
 \url{https://github.com/brry/rdwd/blob/master/R/updateIndexes.R}.
 DEFAULT: \code{rdwd:::\link{formatIndex}}}
+
+\item{quiet}{Suppress subfunction name message? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{\dots}{Further arguments passed to \code{\link{read.fwf}}
 or \code{readr::\link[readr]{read_fwf}}}

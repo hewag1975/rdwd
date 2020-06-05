@@ -4,8 +4,15 @@
 \alias{readDWD.binary}
 \title{read dwd gridded radolan binary data}
 \usage{
-readDWD.binary(file, exdir = sub(".tar.gz$", "", file),
-  toraster = TRUE, progbar = TRUE, selection = NULL, ...)
+readDWD.binary(
+  file,
+  exdir = sub(".tar.gz$", "", file),
+  toraster = TRUE,
+  quiet = rdwdquiet(),
+  progbar = !quiet,
+  selection = NULL,
+  ...
+)
 }
 \arguments{
 \item{file}{Name of file on harddrive, like e.g. 
@@ -19,13 +26,16 @@ these will be ignored for the actual reading with
 DEFAULT exdir: sub(".tar.gz$", "", file)}
 
 \item{toraster}{Logical: convert output (list of matrixes + meta informations)
-to a list with data (\code{raster \link[raster]{stack}}) + 
+to a list with dat (\code{raster \link[raster]{stack}}) + 
 meta (list from the first subfile, but with vector of dates)?
 DEFAULT: TRUE}
 
-\item{progbar}{Show messages and progress bars? \code{\link{readDWD}} will
+\item{quiet}{Suppress progress messages? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
+
+\item{progbar}{Show progress bars? \code{\link{readDWD}} will
 keep progbar=TRUE for binary files, even if length(file)==1.
-DEFAULT: TRUE}
+DEFAULT: !quiet, i.e. TRUE}
 
 \item{selection}{Optionally read only a subset of the ~24*31=744 files.
 Called as \code{f[selection]}. DEFAULT: NULL (ignored)}
@@ -55,7 +65,7 @@ if(!file.exists(SF_exdir)) SF_exdir <- tempdir()
 SF_rad <- readDWD(SF_file, selection=1:10, exdir=SF_exdir) #with toraster=TRUE 
 if(length(SF_rad)!=2) stop("length(SF_rad) should be 2, but is ", length(SF_rad))
 
-SF_radp <- projectRasterDWD(SF_rad$data)
+SF_radp <- projectRasterDWD(SF_rad$dat)
 raster::plot(SF_radp[[1]], main=SF_rad$meta$date[1])
 addBorders()
 
@@ -68,7 +78,7 @@ RW_file <- dataDWD(file=RW_link, base=gridbase, joinbf=TRUE,   # 25 MB
 RW_exdir <- "C:/Users/berry/Desktop/DWDbinaryRW"
 if(!file.exists(RW_exdir)) RW_exdir <- tempdir()
 RW_rad <- readDWD(RW_file, selection=1:10, exdir=RW_exdir)
-RW_radp <- projectRasterDWD(RW_rad$data, extent="rw")
+RW_radp <- projectRasterDWD(RW_rad$dat, extent="rw")
 raster::plot(RW_radp[[1]], main=RW_rad$meta$date[1])
 addBorders()
 

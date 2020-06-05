@@ -18,7 +18,7 @@
 #'              files are older than 24 hours. Reduce test time a lot by setting
 #'              this to FALSE. DEFAULT: !fast
 #' @param examples Run Examples (including donttest sections) DEFAULT: !fast
-#' @param quiet Suppress progress messages? DEFAULT: FALSE
+#' @param quiet Suppress progress messages? DEFAULT: FALSE through \code{\link{rdwdquiet}()}
 #'
 runLocalTests <- function(
 dir_data=localtestdir(),
@@ -27,7 +27,7 @@ fast=FALSE,              # ca 0.1 minutes (always, even if fast=T)
 radar=!fast,             # ca 0.3 minutes
 all_Potsdam_files=!fast, # ca 1.6 minutes
 examples=!fast,          # ca 2.1 minutes
-quiet=FALSE
+quiet=rdwdquiet()
 )
 {
 # pre-checks ----
@@ -248,6 +248,12 @@ testthat::expect_error(selectDWD(id="", current=TRUE, res="",var="",per=""),
 })
 
 
+# checkIndex ----
+
+checkIndex(findex=fileIndex, mindex=metaIndex, gindex=geoIndex, fast=fast,
+          logfile=paste0(dir_exmpl,"/warnings.txt"), warn=FALSE)
+
+
 # Index up to date? ----
 
 messaget("++ Testing index up to date?")
@@ -294,9 +300,12 @@ if(any(alloutdated)) stop("The DWD has not yet updated any historical files in "
 # Testing examples ----
 if(examples)
   {
+  checkSuggestedPackage("roxygen2", "runLocalTests with examples=TRUE")
   messaget("++ Testing examples")
   roxygen2::roxygenise()
-  berryFunctions::testExamples(logfolder=dir_exmpl)
+  oo <- options(rdwdquiet=TRUE)
+  berryFunctions::testExamples(logfolder=dir_exmpl, telldocument=FALSE) # version >= 1.18.18
+  options(oo)
   }
 
 # Output ----

@@ -8,7 +8,7 @@
 #' @seealso \code{\link{createIndex}}
 #' @examples 
 #' data(fileIndex) ; data(metaIndex) ; data(geoIndex)
-#' # ci <- checkIndex(findex=fileIndex, mindex=metaIndex, gindex=geoIndex)
+#' # ci <- rdwd:::checkIndex(findex=fileIndex, mindex=metaIndex, gindex=geoIndex)
 #' # cat(ci)
 #' @param findex    \code{\link{fileIndex}}. DEFAULT: NULL
 #' @param mindex    \code{\link{metaIndex}}. DEFAULT: NULL
@@ -17,12 +17,17 @@
 #'                  DEFAULT: TRUE
 #' @param fast      Exclude the 3-minute location per ID check? DEFAULT: FALSE
 #' @param warn      Warn about issues? DEFAULT: TRUE
-checkIndex <- function(findex=NULL, mindex=NULL, gindex=NULL, excludefp=TRUE, fast=FALSE, warn=TRUE)
+#' @param logfile   File to copy log to, appended to existing content. NULL to suppress. 
+#'                  DEFAULT: "misc/ExampleTests/warnings.txt"
+checkIndex <- function(findex=NULL, mindex=NULL, gindex=NULL, 
+                       excludefp=TRUE, fast=FALSE, warn=TRUE,
+                       logfile=localtestdir(".", "misc/ExampleTests/warnings.txt"))
 {
 # helper function:
 alldupli <- function(x) duplicated(x) | duplicated(x, fromLast=TRUE)
 # Output text:
-out <- ""
+out <- paste("\ncheckIndex results at", as.character(Sys.time()), "for\n")
+out <- paste0(out, dwdbase, berryFunctions::traceCall(suffix=""))
 
 # findex ----
 
@@ -39,12 +44,21 @@ if(nrow(duplifile)>0)
   rvp <- paste(duplifile$res,duplifile$var,duplifile$per, sep="/")
   per_folder <- lapply(unique(rvp), function(p) 
     {i <- unique(duplifile$id[rvp==p])
-    paste0("- ", round0(length(i), pre=4, flag=" "), " at ", p, "; ", 
+    paste0("- ", round0(length(i), pre=2, flag=" "), " at ", p, "; ", 
            truncMessage(i, ntrunc=10, prefix=""))
     })
   per_folder <- paste(unlist(per_folder), collapse="\n")
   out <- c(out, "IDs with duplicate files:", per_folder)
   }
+
+# Duplicate meta files:
+duplifile <- findex[findex$ismeta & 
+                    grepl("txt$", findex$path) & 
+                    findex$res != "multi_annual",] # aktStandort + festerStandort
+duplifile$rvp <- paste(duplifile$res, duplifile$var, duplifile$per, sep="/")
+duplifile <- duplifile$path[alldupli(duplifile$rvp)]
+if(length(duplifile)>0)
+  out <- c(out, "Duplicate 'Beschreibung' files:", paste("-",duplifile))
 }
 
 
@@ -162,8 +176,11 @@ if(anyDuplicated(coord))
 }
 
 # output stuff:
-if(any(out!="") & warn) warning("There are issues in the indexes, view them with cat.")
-out <- c(out, as.character(Sys.time()))
+logfileprint <- if(!is.null(logfile)) paste0("  openFile('",
+                  normalizePath(logfile,winslash="/", mustWork=FALSE),"')") else ""
+if(length(out)>2 & warn) warning("There are issues in the indexes.", logfileprint)
+out <- c(out, "\n")
 out <- paste(out, collapse="\n")
+if(!is.null(logfile)) cat(out, file=logfile, append=TRUE)
 return(invisible(out))
 } # end checkIndex

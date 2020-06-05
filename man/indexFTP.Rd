@@ -4,10 +4,19 @@
 \alias{indexFTP}
 \title{Create a recursive index of an FTP Server}
 \usage{
-indexFTP(folder = "currentfindex", base = dwdbase,
-  is.file.if.has.dot = TRUE, exclude.latest.bin = TRUE, sleep = 0,
-  dir = "DWDdata", filename = folder[1], overwrite = FALSE,
-  quiet = FALSE, progbar = !quiet, verbose = FALSE)
+indexFTP(
+  folder = "currentfindex",
+  base = dwdbase,
+  is.file.if.has.dot = TRUE,
+  exclude.latest.bin = TRUE,
+  sleep = 0,
+  dir = "DWDdata",
+  filename = folder[1],
+  overwrite = FALSE,
+  quiet = rdwdquiet(),
+  progbar = !quiet,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{folder}{Folder(s) to be indexed recursively, e.g. "/hourly/wind/".
@@ -47,7 +56,8 @@ DEFAULT: "DWDdata" at current \code{\link{getwd}()}}
 filename, see \code{berryFunctions::\link[berryFunctions]{newFilename}}.
 DEFAULT: FALSE}
 
-\item{quiet}{Suppress progbars and message about directory/files? DEFAULT: FALSE}
+\item{quiet}{Suppress progbars and message about directory/files? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{progbar}{Logical: present a progress bar in each level? DEFAULT: TRUE}
 

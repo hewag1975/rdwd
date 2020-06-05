@@ -4,8 +4,15 @@
 \alias{checkIndex}
 \title{check indexes}
 \usage{
-checkIndex(findex = NULL, mindex = NULL, gindex = NULL,
-  excludefp = TRUE, fast = FALSE, warn = TRUE)
+checkIndex(
+  findex = NULL,
+  mindex = NULL,
+  gindex = NULL,
+  excludefp = TRUE,
+  fast = FALSE,
+  warn = TRUE,
+  logfile = localtestdir(".", "misc/ExampleTests/warnings.txt")
+)
 }
 \arguments{
 \item{findex}{\code{\link{fileIndex}}. DEFAULT: NULL}
@@ -20,6 +27,9 @@ DEFAULT: TRUE}
 \item{fast}{Exclude the 3-minute location per ID check? DEFAULT: FALSE}
 
 \item{warn}{Warn about issues? DEFAULT: TRUE}
+
+\item{logfile}{File to copy log to, appended to existing content. NULL to suppress. 
+DEFAULT: "misc/ExampleTests/warnings.txt"}
 }
 \value{
 Charstring with issues (if any) to be printed with \code{cat()}.
@@ -31,7 +41,7 @@ check indexes. Mainly for internal usage in \code{\link{createIndex}}.
 }
 \examples{
 data(fileIndex) ; data(metaIndex) ; data(geoIndex)
-# ci <- checkIndex(findex=fileIndex, mindex=metaIndex, gindex=geoIndex)
+# ci <- rdwd:::checkIndex(findex=fileIndex, mindex=metaIndex, gindex=geoIndex)
 # cat(ci)
 }
 \seealso{

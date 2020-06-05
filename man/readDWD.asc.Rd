@@ -4,8 +4,15 @@
 \alias{readDWD.asc}
 \title{read dwd gridded radolan asc data}
 \usage{
-readDWD.asc(file, exdir = NULL, dividebyten = TRUE, selection = NULL,
-  progbar = TRUE, ...)
+readDWD.asc(
+  file,
+  exdir = NULL,
+  dividebyten = TRUE,
+  selection = NULL,
+  quiet = rdwdquiet(),
+  progbar = !quiet,
+  ...
+)
 }
 \arguments{
 \item{file}{Name of file on harddrive, like e.g. 
@@ -27,9 +34,12 @@ DEFAULT: TRUE}
 \item{selection}{Optionally read only a subset of the ~24*31=744 files.
 Called as \code{f[selection]}. DEFAULT: NULL (ignored)}
 
-\item{progbar}{Show messages and progress bars? \code{\link{readDWD}} will
+\item{quiet}{Suppress progress messages? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
+
+\item{progbar}{Show progress bars? \code{\link{readDWD}} will
 keep progbar=TRUE for asc files, even if length(file)==1.
-DEFAULT: TRUE}
+DEFAULT: !quiet, i.e. TRUE}
 
 \item{\dots}{Further arguments passed to \code{raster::\link[raster]{raster}}}
 }

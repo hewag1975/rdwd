@@ -4,8 +4,15 @@
 \alias{readDWD.data}
 \title{read regular dwd data}
 \usage{
-readDWD.data(file, fread = FALSE, varnames = FALSE, format = NA,
-  tz = "GMT", quiet = FALSE, ...)
+readDWD.data(
+  file,
+  fread = FALSE,
+  varnames = FALSE,
+  format = NA,
+  tz = "GMT",
+  quiet = rdwdquiet(),
+  ...
+)
 }
 \arguments{
 \item{file}{Name of file on harddrive, like e.g. 
@@ -33,7 +40,8 @@ on the number of characters. DEFAULT: NA}
 "" is the current time zone, and "GMT" is UTC (Universal Time,
 Coordinated). DEFAULT: "GMT"}
 
-\item{quiet}{Suppress empty file warnings? DEFAULT: FALSE}
+\item{quiet}{Suppress empty file warnings and subfuntion name message? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{\dots}{Further arguments passed to \code{\link{read.table}} or 
 \code{data.table::\link[data.table]{fread}}}

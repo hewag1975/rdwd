@@ -4,8 +4,13 @@
 \alias{projectRasterDWD}
 \title{project DWD raster data}
 \usage{
-projectRasterDWD(r, proj = "radolan", extent = "radolan",
-  targetproj = "ll", quiet = FALSE)
+projectRasterDWD(
+  r,
+  proj = "radolan",
+  extent = "radolan",
+  targetproj = "ll",
+  quiet = rdwdquiet()
+)
 }
 \arguments{
 \item{r}{Raster object}
@@ -26,7 +31,7 @@ DEFAULT: "radolan"}
 \code{\link[raster:projection]{crs}}. Use NULL to not reproject (i.e. only
 set proj and extent) DEFAULT: "ll" with internal default for lat-lon.}
 
-\item{quiet}{Logical: suppress progress messages? DEFAULT: FALSE}
+\item{quiet}{Logical: suppress progress messages? DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 }
 \value{
 Raster object with projection and extent, invisible

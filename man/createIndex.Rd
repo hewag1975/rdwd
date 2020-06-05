@@ -4,10 +4,21 @@
 \alias{createIndex}
 \title{Create file and meta index of the DWD CDC FTP Server}
 \usage{
-createIndex(paths, base = dwdbase, dir = "DWDdata",
-  fname = "fileIndex.txt", meta = FALSE, metadir = "meta",
-  mname = "metaIndex.txt", gname = "geoIndex.txt", overwrite = FALSE,
-  checkwarn = TRUE, quiet = FALSE, ...)
+createIndex(
+  paths,
+  base = dwdbase,
+  dir = "DWDdata",
+  fname = "fileIndex.txt",
+  meta = FALSE,
+  metadir = "meta",
+  mname = "metaIndex.txt",
+  gname = "geoIndex.txt",
+  overwrite = FALSE,
+  checkwarn = TRUE,
+  checklog = tempfile(),
+  quiet = rdwdquiet(),
+  ...
+)
 }
 \arguments{
 \item{paths}{Char: vector of DWD paths returned by \code{\link{indexFTP}} called
@@ -43,7 +54,10 @@ DEFAULT: FALSE}
 
 \item{checkwarn}{Logical: warn about \code{\link{checkIndex}} issues? DEFAULT: TRUE}
 
-\item{quiet}{Logical: Suppress messages about progress and filenames? DEFAULT: FALSE}
+\item{checklog}{Logfile for \code{\link{checkIndex}}. DEFAULT: \code{\link{tempfile}()}}
+
+\item{quiet}{Logical: Suppress messages about progress and filenames? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{\dots}{Further arguments passed to \code{\link{dataDWD}} for the meta part.}
 }

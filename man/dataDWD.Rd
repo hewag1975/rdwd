@@ -4,10 +4,23 @@
 \alias{dataDWD}
 \title{Download data from the DWD CDC FTP Server}
 \usage{
-dataDWD(file, base = dwdbase, joinbf = FALSE, dir = "DWDdata",
-  force = FALSE, overwrite = FALSE, dbin = FALSE, sleep = 0,
-  quiet = FALSE, progbar = !quiet, browse = FALSE, read = TRUE,
-  ntrunc = 2, dfargs = NULL, ...)
+dataDWD(
+  file,
+  base = dwdbase,
+  joinbf = FALSE,
+  dir = "DWDdata",
+  force = FALSE,
+  overwrite = FALSE,
+  dbin = FALSE,
+  sleep = 0,
+  quiet = rdwdquiet(),
+  progbar = !quiet,
+  browse = FALSE,
+  read = TRUE,
+  ntrunc = 2,
+  dfargs = NULL,
+  ...
+)
 }
 \arguments{
 \item{file}{Char (vector): complete file URL(s) (including base and filename.zip) as returned by
@@ -42,7 +55,8 @@ DEFAULT: FALSE}
 \code{sleep} is passed to \code{\link{Sys.sleep}} after each download
 to avoid getting kicked off the FTP-Server. DEFAULT: 0}
 
-\item{quiet}{Logical: suppress message about directory / filenames? DEFAULT: FALSE}
+\item{quiet}{Logical: suppress message about directory / filenames? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{progbar}{Logical: present a progress bar with estimated remaining time?
 If missing and length(file)==1, progbar is internally set to FALSE.

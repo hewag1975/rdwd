@@ -4,8 +4,14 @@
 \alias{readDWD.nc}
 \title{read dwd netcdf data}
 \usage{
-readDWD.nc(file, gargs = NULL, var = "", toraster = TRUE,
-  quiet = FALSE, ...)
+readDWD.nc(
+  file,
+  gargs = NULL,
+  var = "",
+  toraster = TRUE,
+  quiet = rdwdquiet(),
+  ...
+)
 }
 \arguments{
 \item{file}{Name of file on harddrive, like e.g. 
@@ -24,7 +30,9 @@ DEFAULT: "" (last variable)}
 All further arguments will be ignored. Specify e.g. var through \dots.
 DEFAULT: TRUE}
 
-\item{quiet}{Logical: Suppress time conversion failure warning? DEFAULT: FALSE}
+\item{quiet}{Logical: Suppress Suppress subfunction name message and 
+time conversion failure warning? 
+DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{\dots}{Further arguments passed to \code{raster::\link[raster]{brick}}
 or \code{ncdf4::\link[ncdf4]{nc_open}}}
@@ -54,6 +62,8 @@ ncp <- projectRasterDWD(nc, proj="nc", extent="nc")
 addBorders()
 str(nc, max.level=2)
 
+raster::values(nc[[1]]) # obtain actual values into memory
+ 
 raster::plot(nc[[1]]) # axes 0:938 / 0:720, the number of grid cells
 raster::plot(ncp[[1]])# properly projected, per default onto latlon
 

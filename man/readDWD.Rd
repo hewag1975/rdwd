@@ -4,13 +4,26 @@
 \alias{readDWD}
 \title{Process data from the DWD CDC FTP Server}
 \usage{
-readDWD(file, quiet = FALSE, progbar = !quiet, fread = FALSE,
-  varnames = FALSE, var = "", format = NA, tz = "GMT",
-  dividebyten = TRUE, multia = grepl("Standort.txt$", file),
-  meta = grepl(".txt$", file), stand = grepl("standard_format", file),
-  binary = grepl(".tar.gz$", file), raster = grepl(".asc.gz$", file),
-  nc = grepl(".nc.gz$", file), radar = grepl(".gz$", file),
-  asc = grepl(".tar$", file), ...)
+readDWD(
+  file,
+  quiet = rdwdquiet(),
+  progbar = !quiet,
+  fread = FALSE,
+  varnames = FALSE,
+  var = "",
+  format = NA,
+  tz = "GMT",
+  dividebyten = TRUE,
+  multia = grepl("Standort.txt$", file),
+  meta = grepl(".txt$", file),
+  stand = grepl("standard_format", file),
+  binary = grepl(".tar.gz$", file),
+  raster = grepl(".asc.gz$", file),
+  nc = grepl(".nc.gz$", file),
+  radar = grepl(".gz$", file),
+  asc = grepl(".tar$", file),
+  ...
+)
 }
 \arguments{
 \item{file}{Char (vector): name(s) of the file(s) downloaded with 
@@ -18,7 +31,7 @@ readDWD(file, quiet = FALSE, progbar = !quiet, fread = FALSE,
 e.g. "~/DWDdata/tageswerte_KL_02575_akt.zip" or
 "~/DWDdata/RR_Stundenwerte_Beschreibung_Stationen.txt"}
 
-\item{quiet}{Logical: suppress messages? DEFAULT: FALSE}
+\item{quiet}{Logical: suppress messages? DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 
 \item{progbar}{Logical: present a progress bar with estimated remaining time?
 If missing and length(file)==1, progbar is internally set to FALSE.
@@ -47,6 +60,8 @@ DEFAULT: TRUE for each file ending in "Standort.txt"}
 
 \item{meta}{Logical (vector): is the \code{file} a meta file (Beschreibung.txt)?
 See \code{\link{readDWD.meta}}.
+For zip files containing station meta information, see 
+\code{\link{readMeta}}.
 DEFAULT: TRUE for each file ending in ".txt"}
 
 \item{stand}{Logical (vector): is the \code{file} a subdaily/standard_format file?
@@ -80,9 +95,7 @@ documented in each internal function.}
 \value{
 Invisible data.frame of the desired dataset, 
         or a named list of data.frames if length(file) > 1.\cr
-        \code{\link{readDWD.binary}}, 
-        \code{\link{readDWD.raster}} and \code{\link{readDWD.asc}} 
-        return raster objects instead of data.frames.
+        The functions for gridded data return raster objects instead of data.frames.
 }
 \description{
 Read climate data that was downloaded with \code{\link{dataDWD}}.

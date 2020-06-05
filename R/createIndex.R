@@ -54,7 +54,9 @@
 #'              \code{berryFunctions::\link[berryFunctions]{newFilename}}.
 #'              DEFAULT: FALSE
 #' @param checkwarn Logical: warn about \code{\link{checkIndex}} issues? DEFAULT: TRUE
-#' @param quiet Logical: Suppress messages about progress and filenames? DEFAULT: FALSE
+#' @param checklog Logfile for \code{\link{checkIndex}}. DEFAULT: \code{\link{tempfile}()}
+#' @param quiet Logical: Suppress messages about progress and filenames? 
+#'              DEFAULT: FALSE through \code{\link{rdwdquiet}()}
 #' @param \dots Further arguments passed to \code{\link{dataDWD}} for the meta part.
 #' 
 createIndex <- function(
@@ -68,7 +70,8 @@ mname="metaIndex.txt",
 gname="geoIndex.txt",
 overwrite=FALSE,
 checkwarn=TRUE,
-quiet=FALSE,
+checklog=tempfile(),
+quiet=rdwdquiet(),
 ...
 )
 {
@@ -172,7 +175,8 @@ if(sum(sel)<2) stop(traceCall(1, "in ", ": "),
               sum(sel),")", call.=FALSE)
 # download and read those files:
 metas <- dataDWD(fileIndex[sel, "path"], base=base, joinbf=TRUE, dir=metadir, 
-                 overwrite=overwrite, stand=FALSE, ...)
+                 overwrite=overwrite, read=FALSE, ...)
+metas <- readDWD(metas, stand=FALSE, quiet=TRUE)
 for(i in seq_along(metas))
   {
   metas[[i]]$res <- fileIndex[sel, "res"][i]
@@ -288,7 +292,7 @@ if(gname!="")
   }
 #
 # Check all indexes:
-checks <- checkIndex(fileIndex, metaIndex, geoIndex, fast=TRUE, warn=checkwarn)
+checks <- checkIndex(fileIndex, metaIndex, geoIndex, fast=TRUE, warn=checkwarn, logfile=checklog)
 #
 # Output -----------------------------------------------------------------------
 if(!quiet) messaget("Done.")

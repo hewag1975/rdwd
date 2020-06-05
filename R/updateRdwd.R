@@ -16,14 +16,14 @@
 #' @param vignette build_vignettes in \code{remotes::\link[remotes]{install_github}}? 
 #'                 DEFAULT: TRUE
 #' @param quiet    Suppress version messages and \code{remotes::install} output?
-#'                 DEFAULT: FALSE
+#'                 DEFAULT: FALSE through \code{\link{rdwdquiet}()}
 #' @param \dots    Further arguments passed to \code{remotes::\link[remotes]{install_github}}
 #'
 updateRdwd <- function(
 pack="rdwd",
 user="brry",
 vignette=TRUE,
-quiet=FALSE,
+quiet=rdwdquiet(),
 ...
 )
 {
@@ -51,7 +51,7 @@ if(!quiet) message(pack, " local version ", Vinst$Version, " (", Vinst$Date,
         ") is outdated.\nInstalling development version ", 
         Vsrc$Version, " (", Vsrc$Date,") from github.com/",repo)
 checkSuggestedPackage("remotes", "updateRdwd")
-# actually install, with vignettes (unlinke remotes default)
+# actually install, with vignettes (unlike remotes default)
 remotes::install_github(repo=repo, build_vignettes=vignette, quiet=quiet, ...)
 return(invisible(output))
 }

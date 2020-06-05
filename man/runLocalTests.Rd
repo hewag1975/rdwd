@@ -4,10 +4,15 @@
 \alias{runLocalTests}
 \title{run local tests of rdwd}
 \usage{
-runLocalTests(dir_data = localtestdir(),
-  dir_exmpl = localtestdir(folder = "misc/ExampleTests"), fast = FALSE,
-  radar = !fast, all_Potsdam_files = !fast, examples = !fast,
-  quiet = FALSE)
+runLocalTests(
+  dir_data = localtestdir(),
+  dir_exmpl = localtestdir(folder = "misc/ExampleTests"),
+  fast = FALSE,
+  radar = !fast,
+  all_Potsdam_files = !fast,
+  examples = !fast,
+  quiet = rdwdquiet()
+)
 }
 \arguments{
 \item{dir_data}{Reusable data location. Preferably not under version control.
@@ -25,7 +30,7 @@ this to FALSE. DEFAULT: !fast}
 
 \item{examples}{Run Examples (including donttest sections) DEFAULT: !fast}
 
-\item{quiet}{Suppress progress messages? DEFAULT: FALSE}
+\item{quiet}{Suppress progress messages? DEFAULT: FALSE through \code{\link{rdwdquiet}()}}
 }
 \value{
 Time taken to run tests in minutes

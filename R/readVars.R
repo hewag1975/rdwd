@@ -329,7 +329,7 @@ FX_10	Windgeschwindigkeit_Max
 FMX_10	Windgeschwindigkeit_MaxMean
 FNX_10	Windgeschwindigkeit_Min
 D	Windrichtung
-D	Windrichtung
+DD	Windrichtung
 DD_10	Windrichtung
 DK_TER	Windrichtung
 DK_TER	Windrichtung
@@ -422,5 +422,7 @@ STURM_8	Sturm_8Bft
 STURM_8	Sturm_8Bft
 TAU	Tau
 TAU	Tau
+SLA_10	Windgeschwindigkeit_STABW_lat
+SLO_10	Windgeschwindigkeit_STABW_lon
 "))
 rownames(dwdparams) <- dwdparams$Parameter
